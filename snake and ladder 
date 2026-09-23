@@ -1,0 +1,82 @@
+import random
+
+# Snake positions using dictionary
+snakes = {
+    99: 54,
+    70: 55,
+    52: 42,
+    25: 2,
+    95: 72
+}
+
+# Ladder positions using dictionary
+ladders = {
+    6: 25,
+    11: 40,
+    60: 85,
+    46: 90,
+    17: 69
+}
+
+# Number of players
+num_players = int(input("Enter number of players: "))
+
+# Store player names
+players = []
+
+# Store player positions using dictionary
+positions = {}
+
+for i in range(num_players):
+    name = input(f"Enter Player {i+1} name: ")
+    players.append(name)
+    positions[name] = 0
+
+print("\n--- Snake and Ladder Game Started ---\n")
+
+# Game loop
+while True:
+
+    for player in players:
+
+        input(f"{player}'s turn. Press Enter to roll dice...")
+
+        # Roll dice
+        dice = random.randint(1, 6)
+
+        print(f"{player} rolled a {dice}")
+
+        # Move player
+        positions[player] += dice
+
+        # Check if player crosses 100
+        if positions[player] > 100:
+            positions[player] -= dice
+            print(f"{player} needs exact number to reach 100!")
+
+        else:
+            print(f"{player} moved to {positions[player]}")
+
+            # Check for ladder
+            if positions[player] in ladders:
+                print(f"🎉 {player} climbed a ladder!")
+                positions[player] = ladders[positions[player]]
+                print(f"{player} reached {positions[player]}")
+
+            # Check for snake
+            elif positions[player] in snakes:
+                print(f"🐍 Oh no! {player} bitten by snake!")
+                positions[player] = snakes[positions[player]]
+                print(f"{player} moved down to {positions[player]}")
+
+        # Display all player positions
+        print("\nCurrent Positions:")
+        for p in players:
+            print(f"{p} : {positions[p]}")
+
+        print("-" * 40)
+
+        # Winning condition
+        if positions[player] == 100:
+            print(f"\n🏆 {player} wins the game!")
+            exit()Python Snake and Ladder Game
